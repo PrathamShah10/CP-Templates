@@ -18,8 +18,8 @@ public:
     }
     int query(int ind, int low, int high, int l, int r) {
         // l r is given range for query
-        if (lazy[ind] % 2 != 0) {
-            seg[ind] = (high - low + 1 - seg[ind]);
+        if (lazy[ind] != 0) {
+            seg[ind] += (high - low + 1) * lazy[ind];
             if (low != high) {
                 lazy[2 * ind + 1] += lazy[ind];
                 lazy[2 * ind + 2] += lazy[ind];
@@ -39,11 +39,11 @@ public:
         int right = query(2 * ind + 2, mid + 1, high, l, r);
         return left + right;
     }
-    void update(int ind, int low, int high, int l, int r) {
+    void update(int ind, int low, int high, int l, int r, int value) {
         // l r is given range for update
         //check if a lazy update is pending
-        if (lazy[ind] % 2 != 0) {
-            seg[ind] = (high - low + 1 - seg[ind]);
+        if (lazy[ind] != 0) {
+            seg[ind] += (high - low + 1) * lazy[ind];
             if (low != high) {
                 lazy[2 * ind + 1] += lazy[ind];
                 lazy[2 * ind + 2] += lazy[ind];
@@ -57,17 +57,17 @@ public:
         }
         //complete overlap -> l low high r
         if (low >= l && high <= r) {
-            seg[ind] = (high - low + 1 - seg[ind]);
+            seg[ind] += (high - low + 1) * value;
             if (low != high) {
-                lazy[2 * ind + 1] += 1;
-                lazy[2 * ind + 2] += 1;
+                lazy[2 * ind + 1] += value;
+                lazy[2 * ind + 2] += value;
             }
             return;
         }
         //partial overlap
         int mid = (low + high) >> 1;
-        update(2 * ind + 1, low, mid, l, r);
-        update(2 * ind + 2, mid + 1, high, l, r);
+        update(2 * ind + 1, low, mid, l, r, value);
+        update(2 * ind + 2, mid + 1, high, l, r, value);
         seg[ind] = seg[2 * ind + 1] + seg[2 * ind + 2];
     }
 };
