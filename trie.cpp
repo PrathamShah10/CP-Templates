@@ -31,7 +31,7 @@ public:
         root = new Node();
     }
 
-    void insert(string word) {
+    void insert(string &word) {
         //initializing dummy node pointing to root initially
         Node *node = root;
         for (int i = 0; i < word.size(); i++) {
@@ -44,7 +44,7 @@ public:
         node->setEnd();
     }
 
-    bool search(string word) {
+    bool search(string &word) {
         Node *node = root;
         for (int i = 0; i < word.size(); i++) {
             if (!node->containKey(word[i])) {
@@ -55,7 +55,7 @@ public:
         return node->isEnd();
     }
 
-    bool startsWith(string prefix) {
+    bool startsWith(string &prefix) {
         Node* node = root;
         for (int i = 0; i < prefix.size(); i++) {
             if (!node->containKey(prefix[i])) {
