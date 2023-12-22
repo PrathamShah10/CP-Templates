@@ -44,18 +44,32 @@ ll gcd(ll a, ll b) {if (b > a) {return gcd(b, a);} if (b == 0) {return a;} retur
 ll lcm(ll a, ll b) {return ((a * b) / (gcd(a, b)));}
 
 
-// undirected EuclerianPath:
-// For such a path to exists if no. of outgoing edges from all nodes is even
-// (in this case we can start from any node which has non-zero outgoing edges)
-// but if no. of outgoing edges from all nodes is even except 2 nodes having
-// odd no. of outgoing edges, then also the path exists provided that we start
-// the traversal from any of these two nodes only
+// there are 2 concepts:
 
-// traversal:
-// we need to visit all edges exactly once.
-// so we make adj list with corrosponding edge number to make it visited during
-// traversal. done array represents how many edges(outgoing) of the current node
-// have been traversed.
+// 1) eulerian cycle(circuit) [here start and end are same]:
+//    for this the conditions are:
+
+// i) for directed graph (both a & b should be satisfied):
+//    a) indegree[i] == outdegree[i] for all i
+//    b) the graph should be a single strongly connected component.
+
+// ii) for undirected graph :
+//    a) outdegree[i] % 2 == 0 for all i (adj[i].size() % 2 == 0).
+
+
+
+// 2) eulerian path [here start and end maybe different]:
+//    for this the conditions are:
+
+// i) for directed graph (both a & b should be satisfied):
+//    a) indegree[i] == outdegree[i] for all i EXECPT 2 NODES
+//    b) for the 2 NODES the conditions are:
+//         aa) outdegree[node1] - indegree[node1] == 1
+//         bb) outdegree[node1] - indegree[node1] == -1
+//    NOTE: the path is from node1 -> all other nodes -> node2
+
+// ii) for undirected graph :
+//    a) outdegree[i] % 2 == 0 for all i EXECPT 2 NODES.
 
 const int N = 2e5 + 2;
 bool vis[N];
